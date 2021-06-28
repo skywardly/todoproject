@@ -1,6 +1,7 @@
+from django.db import models
 from django.shortcuts import render
-from django.views.generic.list import ListView
-from django.views.generic.detail import DetailView
+from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
+from django.urls import reverse_lazy
 from .models import TodoModel
 
 # Create your views here.
@@ -12,3 +13,20 @@ class TodoList(ListView):
 class TodoDetail(DetailView):
     template_name = 'detail.html'
     model = TodoModel
+
+class TodoCreate(CreateView):
+    template_name = 'create.html'
+    model = TodoModel
+    fields = ('title', 'memo', 'priority', 'duedate')
+    success_url = reverse_lazy('list')
+
+class TodoDelete(DeleteView):
+    template_name = 'delete.html'
+    model = TodoModel  #どのモデルを指定して消すか
+    success_url = reverse_lazy('list')
+
+class TodoUpdate(UpdateView):
+    template_name = 'update.html'
+    model = TodoModel
+    fields = ('title', 'memo', 'priority', 'duedate')
+    success_url = reverse_lazy('list')
